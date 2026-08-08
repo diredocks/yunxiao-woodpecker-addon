@@ -1,4 +1,4 @@
-package main
+package internal_test
 
 import (
 	"bytes"
@@ -12,21 +12,21 @@ import (
 	"yunxiao-woodpecker-addon/internal"
 )
 
-func setupTest(t *testing.T) (*httptest.Server, *yunxiao) {
+func setupTest(t *testing.T) (*httptest.Server, *internal.Forge) {
 	t.Helper()
 	mux := fixtures.NewServer()
 	srv := httptest.NewServer(mux)
-	f := &yunxiao{
-		apiURL:         srv.URL,
-		organizationID: "",
-		woodpeckerHost: "https://ci.example.com",
-		hookSecret:     "my-hook-secret",
+	f := &internal.Forge{
+		APIURL:         srv.URL,
+		OrganizationID: "",
+		WoodpeckerHost: "https://ci.example.com",
+		HookSecret:     "my-hook-secret",
 	}
 	return srv, f
 }
 
-func TestNewYunxiaoError(t *testing.T) {
-	_, err := newYunxiao(yunxiaoOpts{APIURL: ""})
+func TestNewError(t *testing.T) {
+	_, err := internal.New(internal.ForgeOpts{APIURL: ""})
 	if err == nil {
 		t.Error("expected error for empty API URL")
 	}

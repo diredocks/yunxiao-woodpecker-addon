@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"encoding/base64"
@@ -6,12 +6,10 @@ import (
 	"testing"
 
 	"go.woodpecker-ci.org/woodpecker/v3/server/model"
-
-	"yunxiao-woodpecker-addon/internal"
 )
 
 func TestConvertRepository(t *testing.T) {
-	repo := &internal.YunxiaoRepository{
+	repo := &YunxiaoRepository{
 		ID:          12345,
 		Name:        "test-repo",
 		Path:        "test-repo",
@@ -71,7 +69,7 @@ func TestConvertRepository(t *testing.T) {
 func TestConvertFileContentBase64(t *testing.T) {
 	plaintext := "pipeline:\n  build:\n    image: alpine\n    commands: echo hello\n"
 	encoded := base64.StdEncoding.EncodeToString([]byte(plaintext))
-	file := &internal.YunxiaoFileContent{
+	file := &YunxiaoFileContent{
 		Content:  encoded,
 		Encoding: "base64",
 	}
@@ -86,7 +84,7 @@ func TestConvertFileContentBase64(t *testing.T) {
 
 func TestConvertFileContentText(t *testing.T) {
 	plaintext := "plain text content"
-	file := &internal.YunxiaoFileContent{
+	file := &YunxiaoFileContent{
 		Content:  plaintext,
 		Encoding: "text",
 	}
@@ -100,9 +98,9 @@ func TestConvertFileContentText(t *testing.T) {
 }
 
 func TestConvertFileTreeEntries(t *testing.T) {
-	entries := []*internal.YunxiaoFileTreeEntry{
-		{Name: "file1.go", Type: internal.FileTypeBlob},
-		{Name: "src", Type: internal.FileTypeTree},
+	entries := []*YunxiaoFileTreeEntry{
+		{Name: "file1.go", Type: FileTypeBlob},
+		{Name: "src", Type: FileTypeTree},
 	}
 	result := convertFileTreeEntries(entries)
 	if len(result) != 2 {
@@ -117,7 +115,7 @@ func TestConvertFileTreeEntries(t *testing.T) {
 }
 
 func TestConvertChangeRequest(t *testing.T) {
-	cr := &internal.YunxiaoChangeRequest{
+	cr := &YunxiaoChangeRequest{
 		LocalID: 42,
 		Title:   "Fix critical bug",
 	}
@@ -135,13 +133,13 @@ func TestMapCommitStatus(t *testing.T) {
 		status model.StatusValue
 		want   string
 	}{
-		{model.StatusSuccess, internal.CommitStateSuccess},
-		{model.StatusFailure, internal.CommitStateFailure},
-		{model.StatusError, internal.CommitStateFailure},
-		{model.StatusKilled, internal.CommitStateFailure},
-		{model.StatusDeclined, internal.CommitStateFailure},
-		{model.StatusPending, internal.CommitStatePending},
-		{model.StatusRunning, internal.CommitStatePending},
+		{model.StatusSuccess, CommitStateSuccess},
+		{model.StatusFailure, CommitStateFailure},
+		{model.StatusError, CommitStateFailure},
+		{model.StatusKilled, CommitStateFailure},
+		{model.StatusDeclined, CommitStateFailure},
+		{model.StatusPending, CommitStatePending},
+		{model.StatusRunning, CommitStatePending},
 	}
 	for _, tt := range tests {
 		got := mapCommitStatus(tt.status)

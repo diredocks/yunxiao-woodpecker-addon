@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"encoding/json"
@@ -7,12 +7,10 @@ import (
 	"strings"
 
 	"go.woodpecker-ci.org/woodpecker/v3/server/model"
-
-	"yunxiao-woodpecker-addon/internal"
 )
 
 func parsePushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
-	var hook internal.HookPushPayload
+	var hook HookPushPayload
 	if err := json.Unmarshal(payload, &hook); err != nil {
 		return nil, nil, err
 	}
@@ -20,7 +18,6 @@ func parsePushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
 	repo := convertHookRepository(&hook.Repository, hook.ProjectID)
 
 	ref := hook.Ref
-	// Extract branch name from refs/heads/<branch>
 	branch := strings.TrimPrefix(ref, "refs/heads/")
 
 	var changedFiles []string
@@ -34,8 +31,6 @@ func parsePushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
 			}
 		}
 	}
-	// Collect changed files from all commits - we don't have file lists in the hook,
-	// so we leave empty. Woodpecker will figure things out.
 
 	pipeline := &model.Pipeline{
 		Event:        model.EventPush,
@@ -51,7 +46,7 @@ func parsePushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
 }
 
 func parseTagPushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
-	var hook internal.HookTagPushPayload
+	var hook HookTagPushPayload
 	if err := json.Unmarshal(payload, &hook); err != nil {
 		return nil, nil, err
 	}
@@ -73,7 +68,7 @@ func parseTagPushHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
 }
 
 func parseMergeRequestHook(payload []byte) (*model.Repo, *model.Pipeline, error) {
-	var hook internal.HookMergeRequestPayload
+	var hook HookMergeRequestPayload
 	if err := json.Unmarshal(payload, &hook); err != nil {
 		return nil, nil, err
 	}
@@ -84,7 +79,6 @@ func parseMergeRequestHook(payload []byte) (*model.Repo, *model.Pipeline, error)
 	isOpen := action == "open" || action == "reopen"
 	isClose := action == "close" || action == "merge"
 
-	// Branch is the target branch
 	pipeline := &model.Pipeline{
 		Event:  model.EventPull,
 		Branch: hook.ObjectAttributes.TargetBranch,
@@ -111,7 +105,7 @@ func parseMergeRequestHook(payload []byte) (*model.Repo, *model.Pipeline, error)
 	return repo, pipeline, nil
 }
 
-func convertHookRepository(repo *internal.HookRepository, projectID int) *model.Repo {
+func convertHookRepository(repo *HookRepository, projectID int) *model.Repo {
 	return &model.Repo{
 		ForgeRemoteID: model.ForgeRemoteID(strconv.Itoa(projectID)),
 		Name:          repo.Name,
@@ -125,7 +119,6 @@ func convertHookRepository(repo *internal.HookRepository, projectID int) *model.
 }
 
 func extractOwnerFromURL(homepage string) string {
-	// homepage is like https://codeup.aliyun.com/namespace/repo
 	parts := strings.Split(strings.TrimRight(homepage, "/"), "/")
 	if len(parts) >= 3 {
 		return parts[len(parts)-2]
