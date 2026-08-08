@@ -474,7 +474,7 @@ func convertRepository(repo *YunxiaoRepository) *model.Repo {
 	accessLevel := max(
 		repo.Permissions.ProjectAccess.AccessLevel,
 		repo.Permissions.GroupAccess.AccessLevel,
-		repo.AccessLevel,
+		int(repo.AccessLevel),
 	)
 	perm := &model.Perm{
 		Pull:  accessLevel >= 10,

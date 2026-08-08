@@ -2,6 +2,7 @@
 package internal
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -31,6 +32,29 @@ const (
 
 	AppJsonType = "application/json"
 )
+
+type IntOrString int
+
+func (i *IntOrString) UnmarshalJSON(b []byte) error {
+	if len(b) > 0 && b[0] == '"' {
+		var s string
+		if err := json.Unmarshal(b, &s); err != nil {
+			return err
+		}
+		n, err := strconv.Atoi(s)
+		if err != nil {
+			return err
+		}
+		*i = IntOrString(n)
+		return nil
+	}
+	var n int
+	if err := json.Unmarshal(b, &n); err != nil {
+		return err
+	}
+	*i = IntOrString(n)
+	return nil
+}
 
 // ---------- Pagination ----------
 
@@ -94,7 +118,7 @@ type YunxiaoRepository struct {
 	Archived         bool   `json:"archived"`
 	NamespaceID      int    `json:"namespaceId"`
 	CreatorID        int    `json:"creatorId"`
-	AccessLevel      int    `json:"accessLevel"`
+	AccessLevel      IntOrString    `json:"accessLevel"`
 	CreatedAt        string `json:"createdAt"`
 	UpdatedAt        string `json:"updatedAt"`
 	LastActivityAt   string `json:"lastActivityAt"`
