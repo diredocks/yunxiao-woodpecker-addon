@@ -120,7 +120,7 @@ body {
       <label for="token">个人访问令牌</label>
       <input type="password" id="token" name="token" placeholder="请输入云效 PAT" autocomplete="off" autofocus>
       <p class="hint">
-        <a href="https://help.aliyun.com/document_detail/cloudkey/pat.html" target="_blank" rel="noopener">
+        <a href="https://help.aliyun.com/zh/yunxiao/developer-reference/obtain-personal-access-token" target="_blank" rel="noopener">
           如何获取个人访问令牌？
         </a>
       </p>
