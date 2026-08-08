@@ -1,3 +1,4 @@
+// Test fixtures providing a mock yunxiao API server for integration testing.
 package fixtures
 
 import (

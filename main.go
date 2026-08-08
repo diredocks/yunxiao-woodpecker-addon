@@ -1,3 +1,5 @@
+// Yunxiao Woodpecker forge addon entry point.
+// Reads configuration from environment variables and starts the gRPC addon server.
 package main
 
 import (

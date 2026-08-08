@@ -1,3 +1,6 @@
+// Implements the woodpecker forge addon interface for yunxiao.
+// Provides repository management, webhook handling, commit status reporting,
+// and user/organization operations backed by the yunxiao API.
 package internal
 
 import (

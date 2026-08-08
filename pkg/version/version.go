@@ -1,3 +1,4 @@
+// Build version information injected at build time via ldflags.
 package version
 
 import (
