@@ -122,6 +122,10 @@ func (f *Forge) Repo(ctx context.Context, u *model.User, remoteID model.ForgeRem
 	repoID := name
 	if remoteID.IsValid() {
 		repoID = string(remoteID)
+	} else if f.OrganizationID != "" {
+		repoID = url.PathEscape(f.OrganizationID + "/" + name)
+	} else {
+		repoID = url.PathEscape(owner + "/" + name)
 	}
 
 	client := f.newClient(ctx, u)

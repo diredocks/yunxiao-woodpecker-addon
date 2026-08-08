@@ -414,7 +414,8 @@ func NewServer() *http.ServeMux {
 		jsonResponse(w, RepositoriesPayloadPage0)
 	})
 	mux.HandleFunc("GET /oapi/v1/codeup/repositories/{repoId}", func(w http.ResponseWriter, r *http.Request) {
-		if r.PathValue("repoId") == "99999" {
+		repoID := r.PathValue("repoId")
+		if repoID == "99999" || repoID == "/99999" || repoID == "%2F99999" {
 			w.WriteHeader(http.StatusNotFound)
 			jsonResponse(w, NotFoundPayload)
 			return
@@ -479,7 +480,8 @@ func NewServer() *http.ServeMux {
 		jsonResponse(w, RepositoriesPayloadPage0)
 	})
 	mux.HandleFunc("GET /oapi/v1/codeup/organizations/{orgId}/repositories/{repoId}", func(w http.ResponseWriter, r *http.Request) {
-		if r.PathValue("repoId") == "99999" {
+		repoID := r.PathValue("repoId")
+		if repoID == "99999" || repoID == "/99999" || repoID == "%2F99999" {
 			w.WriteHeader(http.StatusNotFound)
 			jsonResponse(w, NotFoundPayload)
 			return
