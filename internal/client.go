@@ -74,7 +74,6 @@ func (c *Client) ListOrganizations(page, perPage int) ([]*YunxiaoOrganization, e
 // ---------- Repositories ----------
 
 func (c *Client) ListRepositories(page, perPage int) ([]*YunxiaoRepository, error) {
-	var all []*YunxiaoRepository
 	p := page
 	if p <= 0 {
 		p = 1
@@ -83,21 +82,10 @@ func (c *Client) ListRepositories(page, perPage int) ([]*YunxiaoRepository, erro
 	if pp <= 0 {
 		pp = 100
 	}
-	for {
-		uri := c.codeupPath("/repositories") + "?" + (&ListOpts{Page: p, PerPage: pp}).Encode()
-		out := new([]*YunxiaoRepository)
-		resp, err := c.do(uri, http.MethodGet, nil, out)
-		if err != nil {
-			return nil, err
-		}
-		all = append(all, *out...)
-		totalPages := getTotalPages(resp)
-		if p >= totalPages || len(*out) == 0 {
-			break
-		}
-		p++
-	}
-	return all, nil
+	uri := c.codeupPath("/repositories") + "?" + (&ListOpts{Page: p, PerPage: pp}).Encode()
+	out := new([]*YunxiaoRepository)
+	_, err := c.do(uri, http.MethodGet, nil, out)
+	return *out, err
 }
 
 func (c *Client) GetRepository(repositoryID string) (*YunxiaoRepository, error) {

@@ -133,11 +133,11 @@ func (f *Forge) Repo(ctx context.Context, u *model.User, remoteID model.ForgeRem
 	return convertRepository(repo), nil
 }
 
-func (f *Forge) Repos(ctx context.Context, u *model.User, _ *model.ListOptions) ([]*model.Repo, error) {
-	slog.Debug("Called Repos")
+func (f *Forge) Repos(ctx context.Context, u *model.User, opts *model.ListOptions) ([]*model.Repo, error) {
+	slog.Debug("Called Repos", "page", opts.Page, "perPage", opts.PerPage)
 
 	client := f.newClient(ctx, u)
-	repos, err := client.ListRepositories(1, 100)
+	repos, err := client.ListRepositories(opts.Page, opts.PerPage)
 	if err != nil {
 		slog.Error("failed to list repositories", "error", err)
 		return nil, err
@@ -466,6 +466,18 @@ func convertRepository(repo *YunxiaoRepository) *model.Repo {
 	if owner == "" {
 		owner = repo.Owner.Username
 	}
+
+	accessLevel := max(
+		repo.Permissions.ProjectAccess.AccessLevel,
+		repo.Permissions.GroupAccess.AccessLevel,
+		repo.AccessLevel,
+	)
+	perm := &model.Perm{
+		Pull:  accessLevel >= 10,
+		Push:  accessLevel >= 30,
+		Admin: accessLevel >= 40,
+	}
+
 	return &model.Repo{
 		ForgeRemoteID: forgeRemoteID,
 		Name:          repo.Name,
@@ -476,6 +488,7 @@ func convertRepository(repo *YunxiaoRepository) *model.Repo {
 		CloneSSH:      repo.SSHUrlToRepo,
 		Branch:        repo.DefaultBranch,
 		PREnabled:     true,
+		Perm:          perm,
 	}
 }
 
