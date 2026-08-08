@@ -43,9 +43,6 @@
             golangci-lint
             gopls
           ];
-          shellHook = ''
-            echo "yunxiao-woodpecker-addon dev shell (Go ${pkgs.go.version})"
-          '';
         };
 
         checks = {
