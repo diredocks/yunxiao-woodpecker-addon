@@ -1,8 +1,4 @@
-package internal
-
-import "net/http"
-
-const loginPageHTML = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -152,11 +148,4 @@ body {
 })();
 </script>
 </body>
-</html>`
-
-func (f *Forge) LoginHandler(w http.ResponseWriter, _ *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Header().Set("X-Content-Type-Options", "nosniff")
-	w.Header().Set("Cache-Control", "no-store")
-	w.Write([]byte(loginPageHTML))
-}
+</html>
