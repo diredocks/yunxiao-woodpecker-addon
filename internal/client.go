@@ -11,7 +11,6 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
-	"strconv"
 	"strings"
 )
 
@@ -275,7 +274,7 @@ func (c *Client) do(rawpath, method string, in, out any) (*http.Header, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode >= http.StatusBadRequest {
 		err := Error{}
@@ -293,19 +292,4 @@ func (c *Client) do(rawpath, method string, in, out any) (*http.Header, error) {
 	}
 
 	return &respHdr, nil
-}
-
-func getTotalPages(h *http.Header) int {
-	if h == nil {
-		return 0
-	}
-	v := h.Get("x-total-pages")
-	if v == "" {
-		return 0
-	}
-	n, err := strconv.Atoi(v)
-	if err != nil {
-		return 0
-	}
-	return n
 }

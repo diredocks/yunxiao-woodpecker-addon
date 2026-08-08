@@ -375,7 +375,7 @@ var (
 
 func jsonResponse(w http.ResponseWriter, data []byte) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(data)
+	_, _ = w.Write(data)
 }
 
 func NewServer() *http.ServeMux {

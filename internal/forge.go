@@ -119,7 +119,7 @@ func (f *Forge) Teams(_ context.Context, _ *model.User, _ *model.ListOptions) ([
 func (f *Forge) Repo(ctx context.Context, u *model.User, remoteID model.ForgeRemoteID, owner, name string) (*model.Repo, error) {
 	slog.Debug("Called Repo", "remoteID", remoteID, "owner", owner, "name", name)
 
-	repoID := name
+	var repoID string
 	if remoteID.IsValid() {
 		repoID = string(remoteID)
 	} else if f.OrganizationID != "" {
@@ -493,17 +493,6 @@ func convertRepository(repo *YunxiaoRepository) *model.Repo {
 		Branch:        repo.DefaultBranch,
 		PREnabled:     true,
 		Perm:          perm,
-	}
-}
-
-func convertBranchToModel(branch *YunxiaoBranch) string {
-	return branch.Name
-}
-
-func convertCommitToModel(commit *YunxiaoCommit) *model.Commit {
-	return &model.Commit{
-		SHA:      commit.ID,
-		ForgeURL: commit.WebURL,
 	}
 }
 
