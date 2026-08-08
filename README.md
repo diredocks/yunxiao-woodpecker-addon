@@ -6,8 +6,8 @@ A [Woodpecker CI](https://woodpecker-ci.org) forge addon for [Codeup](https://co
 
 ## Build the addon
 
-```
-make build    # build the binary
+```sh
+make build   # build the binary
 make test    # run tests
 ```
 
