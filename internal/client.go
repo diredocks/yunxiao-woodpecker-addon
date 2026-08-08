@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -220,7 +221,7 @@ func (c *Client) GetWebhookByURL(repositoryID, hookURL string) (*YunxiaoWebhook,
 		return nil, err
 	}
 	for _, hook := range all {
-		if hook.URL == hookURL {
+		if hook.URL == hookURL || strings.HasPrefix(hook.URL, hookURL) {
 			return hook, nil
 		}
 	}
