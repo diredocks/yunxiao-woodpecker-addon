@@ -2,6 +2,8 @@
 
 A [Woodpecker CI](https://woodpecker-ci.org) forge addon for [Codeup](https://codeup.aliyun.com).
 
+![Screenshot of login page](./screenshot.png)
+
 ## Build the addon
 
 ```
