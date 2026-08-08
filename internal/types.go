@@ -12,9 +12,9 @@ const (
 	EventTypeHeaderKey = "Codeup-Event"
 	WebhookTokenHeader = "X-Codeup-Token"
 
-	EventTypePush        = "Push Hook"
-	EventTypeTagPush     = "Tag Push Hook"
-	EventTypeNote        = "Note Hook"
+	EventTypePush         = "Push Hook"
+	EventTypeTagPush      = "Tag Push Hook"
+	EventTypeNote         = "Note Hook"
 	EventTypeMergeRequest = "Merge Request Hook"
 
 	ObjectKindPush         = "push"
@@ -30,7 +30,7 @@ const (
 	CommitStatePending = "pending"
 	CommitStateSuccess = "success"
 
-	AppJsonType = "application/json"
+	AppJSONType = "application/json"
 )
 
 type IntOrString int
@@ -77,16 +77,16 @@ func (o *ListOpts) Encode() string {
 // ---------- User ----------
 
 type YunxiaoUser struct {
-	ID             string   `json:"id"`
-	Username       string   `json:"username"`
-	Name           string   `json:"name"`
-	NickName       string   `json:"nickName"`
-	Email          string   `json:"email"`
-	StaffID        string   `json:"staffId"`
-	SysDeptIDs     []string `json:"sysDeptIds"`
-	LastOrganization string `json:"lastOrganization"`
-	CreatedAt      string   `json:"createdAt"`
-	DeletedAt      string   `json:"deletedAt"`
+	ID               string   `json:"id"`
+	Username         string   `json:"username"`
+	Name             string   `json:"name"`
+	NickName         string   `json:"nickName"`
+	Email            string   `json:"email"`
+	StaffID          string   `json:"staffId"`
+	SysDeptIDs       []string `json:"sysDeptIds"`
+	LastOrganization string   `json:"lastOrganization"`
+	CreatedAt        string   `json:"createdAt"`
+	DeletedAt        string   `json:"deletedAt"`
 }
 
 // ---------- Organization ----------
@@ -104,30 +104,30 @@ type YunxiaoOrganization struct {
 // ---------- Repository ----------
 
 type YunxiaoRepository struct {
-	ID               int    `json:"id"`
-	Name             string `json:"name"`
-	Path             string `json:"path"`
-	NameWithNamespace string `json:"nameWithNamespace"`
-	PathWithNamespace string `json:"pathWithNamespace"`
-	Description      string `json:"description"`
-	DefaultBranch    string `json:"defaultBranch"`
-	HTTPUrlToRepo    string `json:"httpUrlToRepo"`
-	SSHUrlToRepo     string `json:"sshUrlToRepo"`
-	WebURL           string `json:"webUrl"`
-	Visibility       string `json:"visibility"`
-	Archived         bool   `json:"archived"`
-	NamespaceID      int    `json:"namespaceId"`
-	CreatorID        int    `json:"creatorId"`
-	AccessLevel      IntOrString    `json:"accessLevel"`
-	CreatedAt        string `json:"createdAt"`
-	UpdatedAt        string `json:"updatedAt"`
-	LastActivityAt   string `json:"lastActivityAt"`
-	AvatarURL        string `json:"avatarUrl"`
-	StarCount        int    `json:"starCount"`
-	Starred          bool   `json:"starred"`
-	ForkCount        int    `json:"forkCount"`
-	DemoProject      bool   `json:"demoProject"`
-	Encrypted        bool   `json:"encrypted"`
+	ID                int         `json:"id"`
+	Name              string      `json:"name"`
+	Path              string      `json:"path"`
+	NameWithNamespace string      `json:"nameWithNamespace"`
+	PathWithNamespace string      `json:"pathWithNamespace"`
+	Description       string      `json:"description"`
+	DefaultBranch     string      `json:"defaultBranch"`
+	HTTPUrlToRepo     string      `json:"httpUrlToRepo"`
+	SSHUrlToRepo      string      `json:"sshUrlToRepo"`
+	WebURL            string      `json:"webUrl"`
+	Visibility        string      `json:"visibility"`
+	Archived          bool        `json:"archived"`
+	NamespaceID       int         `json:"namespaceId"`
+	CreatorID         int         `json:"creatorId"`
+	AccessLevel       IntOrString `json:"accessLevel"`
+	CreatedAt         string      `json:"createdAt"`
+	UpdatedAt         string      `json:"updatedAt"`
+	LastActivityAt    string      `json:"lastActivityAt"`
+	AvatarURL         string      `json:"avatarUrl"`
+	StarCount         int         `json:"starCount"`
+	Starred           bool        `json:"starred"`
+	ForkCount         int         `json:"forkCount"`
+	DemoProject       bool        `json:"demoProject"`
+	Encrypted         bool        `json:"encrypted"`
 
 	Namespace struct {
 		ID          int    `json:"id"`
@@ -142,14 +142,14 @@ type YunxiaoRepository struct {
 	} `json:"namespace"`
 
 	Owner struct {
-		ID       int    `json:"id"`
-		UserID   string `json:"userId"`
-		Username string `json:"username"`
-		Name     string `json:"name"`
-		Email    string `json:"email"`
+		ID        int    `json:"id"`
+		UserID    string `json:"userId"`
+		Username  string `json:"username"`
+		Name      string `json:"name"`
+		Email     string `json:"email"`
 		AvatarURL string `json:"avatarUrl"`
-		State    string `json:"state"`
-		WebURL   string `json:"webUrl"`
+		State     string `json:"state"`
+		WebURL    string `json:"webUrl"`
 	} `json:"owner"`
 
 	Permissions struct {
@@ -163,22 +163,22 @@ type YunxiaoRepository struct {
 		} `json:"groupAccess"`
 	} `json:"permissions"`
 
-	AdminSettingLanguage        string `json:"adminSettingLanguage"`
-	AllowPush                   bool   `json:"allowPush"`
-	CloneDownloadControlGray    bool   `json:"cloneDownloadControlGray"`
-	EnableCloneDownloadControl  bool   `json:"enableCloneDownloadControl"`
-	OpenCloneDownloadControl    bool   `json:"openCloneDownloadControl"`
-	ProjectType                 int    `json:"projectType"`
+	AdminSettingLanguage       string `json:"adminSettingLanguage"`
+	AllowPush                  bool   `json:"allowPush"`
+	CloneDownloadControlGray   bool   `json:"cloneDownloadControlGray"`
+	EnableCloneDownloadControl bool   `json:"enableCloneDownloadControl"`
+	OpenCloneDownloadControl   bool   `json:"openCloneDownloadControl"`
+	ProjectType                int    `json:"projectType"`
 }
 
 // ---------- Branch ----------
 
 type YunxiaoBranch struct {
-	Name           string              `json:"name"`
-	DefaultBranch  bool                `json:"defaultBranch"`
-	Protected      bool                `json:"protected"`
-	WebURL         string              `json:"webUrl"`
-	Commit         YunxiaoBranchCommit `json:"commit"`
+	Name          string              `json:"name"`
+	DefaultBranch bool                `json:"defaultBranch"`
+	Protected     bool                `json:"protected"`
+	WebURL        string              `json:"webUrl"`
+	Commit        YunxiaoBranchCommit `json:"commit"`
 }
 
 type YunxiaoBranchCommit struct {
@@ -248,67 +248,67 @@ type YunxiaoFileContent struct {
 // ---------- Change Request (Merge Request) ----------
 
 type YunxiaoChangeRequest struct {
-	LocalID                int                     `json:"localId"`
-	ProjectID              int                     `json:"projectId"`
-	Title                  string                  `json:"title"`
-	Description            string                  `json:"description"`
-	State                  string                  `json:"state"`
-	Status                 string                  `json:"status"`
-	SourceBranch           string                  `json:"sourceBranch"`
-	SourceProjectID        int                     `json:"sourceProjectId"`
-	SourceType             string                  `json:"sourceType"`
-	TargetBranch           string                  `json:"targetBranch"`
-	TargetProjectID        int                     `json:"targetProjectId"`
-	TargetType             string                  `json:"targetType"`
-	CreatedAt              string                  `json:"createdAt"`
-	UpdatedAt              string                  `json:"updatedAt"`
-	WebURL                 string                  `json:"webUrl"`
-	DetailURL              string                  `json:"detailUrl"`
-	SSHURL                 string                  `json:"sshUrl"`
-	MergedRevision         string                  `json:"mergedRevision"`
-	HasConflict            bool                    `json:"hasConflict"`
-	CreationMethod         string                  `json:"creationMethod"`
-	WorkInProgress         bool                    `json:"workInProgress"`
-	TotalCommentCount      int                     `json:"totalCommentCount"`
-	UnResolvedCommentCount int                     `json:"unResolvedCommentCount"`
-	SupportMergeFFOnly     bool                    `json:"supportMergeFFOnly"`
-	Author                 YunxiaoUserSimple       `json:"author"`
-	Reviewers              []YunxiaoReviewer       `json:"reviewers"`
+	LocalID                int               `json:"localId"`
+	ProjectID              int               `json:"projectId"`
+	Title                  string            `json:"title"`
+	Description            string            `json:"description"`
+	State                  string            `json:"state"`
+	Status                 string            `json:"status"`
+	SourceBranch           string            `json:"sourceBranch"`
+	SourceProjectID        int               `json:"sourceProjectId"`
+	SourceType             string            `json:"sourceType"`
+	TargetBranch           string            `json:"targetBranch"`
+	TargetProjectID        int               `json:"targetProjectId"`
+	TargetType             string            `json:"targetType"`
+	CreatedAt              string            `json:"createdAt"`
+	UpdatedAt              string            `json:"updatedAt"`
+	WebURL                 string            `json:"webUrl"`
+	DetailURL              string            `json:"detailUrl"`
+	SSHURL                 string            `json:"sshUrl"`
+	MergedRevision         string            `json:"mergedRevision"`
+	HasConflict            bool              `json:"hasConflict"`
+	CreationMethod         string            `json:"creationMethod"`
+	WorkInProgress         bool              `json:"workInProgress"`
+	TotalCommentCount      int               `json:"totalCommentCount"`
+	UnResolvedCommentCount int               `json:"unResolvedCommentCount"`
+	SupportMergeFFOnly     bool              `json:"supportMergeFFOnly"`
+	Author                 YunxiaoUserSimple `json:"author"`
+	Reviewers              []YunxiaoReviewer `json:"reviewers"`
 }
 
 // ---------- Change Request Detail ----------
 
 type YunxiaoChangeRequestDetail struct {
-	LocalID                       int                      `json:"localId"`
-	ProjectID                     int                      `json:"projectId"`
-	Title                         string                   `json:"title"`
-	Description                   string                   `json:"description"`
-	Status                        string                   `json:"status"`
-	SourceBranch                  string                   `json:"sourceBranch"`
-	SourceProjectID               int                      `json:"sourceProjectId"`
-	TargetBranch                  string                   `json:"targetBranch"`
-	TargetProjectID               int                      `json:"targetProjectId"`
-	TargetProjectPathWithNamespace string                  `json:"targetProjectPathWithNamespace"`
-	TargetProjectNameWithNamespace string                  `json:"targetProjectNameWithNamespace"`
-	CreateTime                    string                   `json:"createTime"`
-	UpdateTime                    string                   `json:"updateTime"`
-	CreateFrom                    string                   `json:"createFrom"`
-	WebURL                        string                   `json:"webUrl"`
-	DetailURL                     string                   `json:"detailUrl"`
-	MergedRevision                string                   `json:"mergedRevision"`
-	Ahead                         int                      `json:"ahead"`
-	Behind                        int                      `json:"behind"`
-	ConflictCheckStatus           string                   `json:"conflictCheckStatus"`
-	AllRequirementsPass           bool                     `json:"allRequirementsPass"`
-	CanRevertOrCherryPick         bool                     `json:"canRevertOrCherryPick"`
-	HasReverted                   bool                     `json:"hasReverted"`
-	MrType                        string                   `json:"mrType"`
-	SupportMergeFastForwardOnly   bool                     `json:"supportMergeFastForwardOnly"`
-	TotalCommentCount             int                      `json:"totalCommentCount"`
-	UnResolvedCommentCount        int                      `json:"unResolvedCommentCount"`
-	Author                        YunxiaoUserSimple        `json:"author"`
-	Reviewers                     []YunxiaoReviewer        `json:"reviewers"`
-	Subscribers                   []YunxiaoUserSimple      `json:"subscribers"`
+	LocalID                        int                 `json:"localId"`
+	ProjectID                      int                 `json:"projectId"`
+	Title                          string              `json:"title"`
+	Description                    string              `json:"description"`
+	Status                         string              `json:"status"`
+	SourceBranch                   string              `json:"sourceBranch"`
+	SourceProjectID                int                 `json:"sourceProjectId"`
+	TargetBranch                   string              `json:"targetBranch"`
+	TargetProjectID                int                 `json:"targetProjectId"`
+	TargetProjectPathWithNamespace string              `json:"targetProjectPathWithNamespace"`
+	TargetProjectNameWithNamespace string              `json:"targetProjectNameWithNamespace"`
+	CreateTime                     string              `json:"createTime"`
+	UpdateTime                     string              `json:"updateTime"`
+	CreateFrom                     string              `json:"createFrom"`
+	WebURL                         string              `json:"webUrl"`
+	DetailURL                      string              `json:"detailUrl"`
+	MergedRevision                 string              `json:"mergedRevision"`
+	Ahead                          int                 `json:"ahead"`
+	Behind                         int                 `json:"behind"`
+	ConflictCheckStatus            string              `json:"conflictCheckStatus"`
+	AllRequirementsPass            bool                `json:"allRequirementsPass"`
+	CanRevertOrCherryPick          bool                `json:"canRevertOrCherryPick"`
+	HasReverted                    bool                `json:"hasReverted"`
+	MrType                         string              `json:"mrType"`
+	SupportMergeFastForwardOnly    bool                `json:"supportMergeFastForwardOnly"`
+	TotalCommentCount              int                 `json:"totalCommentCount"`
+	UnResolvedCommentCount         int                 `json:"unResolvedCommentCount"`
+	Author                         YunxiaoUserSimple   `json:"author"`
+	Reviewers                      []YunxiaoReviewer   `json:"reviewers"`
+	Subscribers                    []YunxiaoUserSimple `json:"subscribers"`
 }
 
 type YunxiaoUserSimple struct {
@@ -336,23 +336,23 @@ type YunxiaoReviewer struct {
 // ---------- Commit Status ----------
 
 type YunxiaoCommitStatus struct {
-	ID          int                  `json:"id"`
-	SHA         string               `json:"sha"`
-	Context     string               `json:"context"`
-	State       string               `json:"state"`
-	Description string               `json:"description"`
-	TargetURL   string               `json:"targetUrl"`
-	CreatedAt   string               `json:"createdAt"`
-	UpdatedAt   string               `json:"updatedAt"`
-	Author      YunxiaoStatusAuthor  `json:"author"`
+	ID          int                 `json:"id"`
+	SHA         string              `json:"sha"`
+	Context     string              `json:"context"`
+	State       string              `json:"state"`
+	Description string              `json:"description"`
+	TargetURL   string              `json:"targetUrl"`
+	CreatedAt   string              `json:"createdAt"`
+	UpdatedAt   string              `json:"updatedAt"`
+	Author      YunxiaoStatusAuthor `json:"author"`
 }
 
 type YunxiaoStatusAuthor struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Name     string `json:"name"`
+	ID        string `json:"id"`
+	Username  string `json:"username"`
+	Name      string `json:"name"`
 	AvatarURL string `json:"avatarUrl"`
-	Type     string `json:"type"`
+	Type      string `json:"type"`
 }
 
 type CreateCommitStatusRequest struct {
@@ -365,29 +365,29 @@ type CreateCommitStatusRequest struct {
 // ---------- Webhook ----------
 
 type YunxiaoWebhook struct {
-	ID                   int    `json:"id"`
-	URL                  string `json:"url"`
-	Token                string `json:"token"`
-	PushEvents           bool   `json:"pushEvents"`
-	TagPushEvents        bool   `json:"tagPushEvents"`
-	NoteEvents           bool   `json:"noteEvents"`
-	MergeRequestEvents   bool   `json:"mergeRequestEvents"`
-	Description          string `json:"description"`
-	EnableSSLVerification bool  `json:"enableSSLVerification"`
-	RepositoryID         int    `json:"repositoryId"`
-	CreatedAt            string `json:"createdAt"`
-	UpdatedAt            string `json:"updatedAt"`
+	ID                    int    `json:"id"`
+	URL                   string `json:"url"`
+	Token                 string `json:"token"`
+	PushEvents            bool   `json:"pushEvents"`
+	TagPushEvents         bool   `json:"tagPushEvents"`
+	NoteEvents            bool   `json:"noteEvents"`
+	MergeRequestEvents    bool   `json:"mergeRequestEvents"`
+	Description           string `json:"description"`
+	EnableSSLVerification bool   `json:"enableSSLVerification"`
+	RepositoryID          int    `json:"repositoryId"`
+	CreatedAt             string `json:"createdAt"`
+	UpdatedAt             string `json:"updatedAt"`
 }
 
 type CreateWebhookRequest struct {
-	URL                     string `json:"url"`
-	Token                   string `json:"token,omitempty"`
-	PushEvents              bool   `json:"pushEvents"`
-	TagPushEvents           bool   `json:"tagPushEvents"`
-	NoteEvents              bool   `json:"noteEvents"`
-	MergeRequestsEvents     bool   `json:"mergeRequestsEvents"`
-	EnableSSLVerification   bool   `json:"enableSslVerification"`
-	Description             string `json:"description,omitempty"`
+	URL                   string `json:"url"`
+	Token                 string `json:"token,omitempty"`
+	PushEvents            bool   `json:"pushEvents"`
+	TagPushEvents         bool   `json:"tagPushEvents"`
+	NoteEvents            bool   `json:"noteEvents"`
+	MergeRequestsEvents   bool   `json:"mergeRequestsEvents"`
+	EnableSSLVerification bool   `json:"enableSslVerification"`
+	Description           string `json:"description,omitempty"`
 }
 
 type DeleteWebhookResponse struct {
@@ -397,63 +397,63 @@ type DeleteWebhookResponse struct {
 // ---------- Webhook Payload Types ----------
 
 type HookPushPayload struct {
-	ObjectKind       string                    `json:"object_kind"`
-	Before           string                    `json:"before"`
-	After            string                    `json:"after"`
-	Ref              string                    `json:"ref"`
-	UserID           int                       `json:"user_id"`
-	UserName         string                    `json:"user_name"`
-	UserEmail        string                    `json:"user_email"`
-	ProjectID        int                       `json:"project_id"`
-	Repository       HookRepository            `json:"repository"`
-	Commits          []HookCommit              `json:"commits"`
-	TotalCommitsCount int                      `json:"total_commits_count"`
+	ObjectKind        string         `json:"object_kind"`
+	Before            string         `json:"before"`
+	After             string         `json:"after"`
+	Ref               string         `json:"ref"`
+	UserID            int            `json:"user_id"`
+	UserName          string         `json:"user_name"`
+	UserEmail         string         `json:"user_email"`
+	ProjectID         int            `json:"project_id"`
+	Repository        HookRepository `json:"repository"`
+	Commits           []HookCommit   `json:"commits"`
+	TotalCommitsCount int            `json:"total_commits_count"`
 }
 
 type HookTagPushPayload struct {
-	ObjectKind       string         `json:"object_kind"`
-	Before           string         `json:"before"`
-	After            string         `json:"after"`
-	Ref              string         `json:"ref"`
-	UserID           int            `json:"user_id"`
-	UserName         string         `json:"user_name"`
-	ProjectID        int            `json:"project_id"`
-	Repository       HookRepository `json:"repository"`
-	Commits          []HookCommit   `json:"commits"`
-	TotalCommitsCount int           `json:"total_commits_count"`
+	ObjectKind        string         `json:"object_kind"`
+	Before            string         `json:"before"`
+	After             string         `json:"after"`
+	Ref               string         `json:"ref"`
+	UserID            int            `json:"user_id"`
+	UserName          string         `json:"user_name"`
+	ProjectID         int            `json:"project_id"`
+	Repository        HookRepository `json:"repository"`
+	Commits           []HookCommit   `json:"commits"`
+	TotalCommitsCount int            `json:"total_commits_count"`
 }
 
 type HookMergeRequestPayload struct {
-	ObjectKind       string                `json:"object_kind"`
-	User             HookUser              `json:"user"`
-	Repository       HookRepository        `json:"repository"`
-	ObjectAttributes HookMergeRequestAttr  `json:"object_attributes"`
+	ObjectKind       string               `json:"object_kind"`
+	User             HookUser             `json:"user"`
+	Repository       HookRepository       `json:"repository"`
+	ObjectAttributes HookMergeRequestAttr `json:"object_attributes"`
 }
 
 type HookMergeRequestAttr struct {
-	Action              string           `json:"action"`
-	AuthorAliyunPK      string           `json:"author_aliyun_pk"`
-	AuthorID            int              `json:"author_id"`
-	BizID               string           `json:"biz_id"`
-	CreatedAt           string           `json:"created_at"`
-	Description         string           `json:"description"`
-	IsUpdateByPush      bool             `json:"is_update_by_push"`
-	LastCommit          HookLastCommit   `json:"last_commit"`
-	LocalID             int              `json:"local_id"`
-	MergeStatus         string           `json:"merge_status"`
-	ProjectID           int              `json:"project_id"`
-	Source              HookMRSide       `json:"source"`
-	SourceBranch        string           `json:"source_branch"`
-	SourceProjectID     int              `json:"source_project_id"`
-	SourceType          string           `json:"source_type"`
-	State               string           `json:"state"`
-	Target              HookMRSide       `json:"target"`
-	TargetBranch        string           `json:"target_branch"`
-	TargetProjectID     int              `json:"target_project_id"`
-	Title               string           `json:"title"`
-	UpdatedAt           string           `json:"updated_at"`
-	URL                 string           `json:"url"`
-	WorkInProgress      bool             `json:"work_in_progress"`
+	Action          string         `json:"action"`
+	AuthorAliyunPK  string         `json:"author_aliyun_pk"`
+	AuthorID        int            `json:"author_id"`
+	BizID           string         `json:"biz_id"`
+	CreatedAt       string         `json:"created_at"`
+	Description     string         `json:"description"`
+	IsUpdateByPush  bool           `json:"is_update_by_push"`
+	LastCommit      HookLastCommit `json:"last_commit"`
+	LocalID         int            `json:"local_id"`
+	MergeStatus     string         `json:"merge_status"`
+	ProjectID       int            `json:"project_id"`
+	Source          HookMRSide     `json:"source"`
+	SourceBranch    string         `json:"source_branch"`
+	SourceProjectID int            `json:"source_project_id"`
+	SourceType      string         `json:"source_type"`
+	State           string         `json:"state"`
+	Target          HookMRSide     `json:"target"`
+	TargetBranch    string         `json:"target_branch"`
+	TargetProjectID int            `json:"target_project_id"`
+	Title           string         `json:"title"`
+	UpdatedAt       string         `json:"updated_at"`
+	URL             string         `json:"url"`
+	WorkInProgress  bool           `json:"work_in_progress"`
 }
 
 type HookLastCommit struct {
@@ -474,13 +474,13 @@ type HookMRSide struct {
 }
 
 type HookRepository struct {
-	Name        string `json:"name"`
-	URL         string `json:"url"`
-	Description string `json:"description"`
-	Homepage    string `json:"homepage"`
-	GitHTTPURL  string `json:"git_http_url"`
-	GitSSHURL   string `json:"git_ssh_url"`
-	VisibilityLevel int `json:"visibility_level"`
+	Name            string `json:"name"`
+	URL             string `json:"url"`
+	Description     string `json:"description"`
+	Homepage        string `json:"homepage"`
+	GitHTTPURL      string `json:"git_http_url"`
+	GitSSHURL       string `json:"git_ssh_url"`
+	VisibilityLevel int    `json:"visibility_level"`
 }
 
 type HookCommit struct {

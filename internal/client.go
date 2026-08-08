@@ -267,7 +267,7 @@ func (c *Client) do(rawpath, method string, in, out any) (*http.Header, error) {
 		return nil, err
 	}
 	if in != nil {
-		req.Header.Set("Content-Type", AppJsonType)
+		req.Header.Set("Content-Type", AppJSONType)
 	}
 	req.Header.Set("x-yunxiao-token", c.token)
 
