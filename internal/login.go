@@ -1,3 +1,4 @@
+// Package internal implements login page rendering for the woodpecker forge.
 package internal
 
 import (

@@ -1,5 +1,5 @@
-// Forge implementation for the woodpecker CI forge addon interface.
-// Includes repository management, webhook lifecycle, commit status reporting,
+// Package internal implements the forge interface for woodpecker CI addon,
+// including repository management, webhook lifecycle, commit status reporting,
 // user/organization operations, and type conversion helpers.
 package internal
 

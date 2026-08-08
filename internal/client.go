@@ -1,5 +1,5 @@
-// HTTP client for the yunxiao platform and codeup APIs.
-// Handles authentication, pagination, and JSON serialization.
+// Package internal provides the HTTP client for the yunxiao platform and codeup APIs,
+// handling authentication, pagination, and JSON serialization.
 package internal
 
 import (
@@ -39,10 +39,10 @@ func NewClient(ctx context.Context, baseURL string, token string, organizationID
 }
 
 // codeupPath builds a codeup API path. For center edition, it includes the organization ID.
-func (c *Client) codeupPath(template string, args ...interface{}) string {
+func (c *Client) codeupPath(template string, args ...any) string {
 	var path string
 	if c.organizationID != "" {
-		path = fmt.Sprintf(codeupBasePath+"/organizations/%s"+template, append([]interface{}{c.organizationID}, args...)...)
+		path = fmt.Sprintf(codeupBasePath+"/organizations/%s"+template, append([]any{c.organizationID}, args...)...)
 	} else {
 		path = fmt.Sprintf(codeupBasePath+template, args...)
 	}
@@ -50,7 +50,7 @@ func (c *Client) codeupPath(template string, args ...interface{}) string {
 }
 
 // platformPath builds a platform API path. For center edition, it includes the organization ID if needed.
-func (c *Client) platformPath(template string, args ...interface{}) string {
+func (c *Client) platformPath(template string, args ...any) string {
 	return fmt.Sprintf(platformBasePath+template, args...)
 }
 
@@ -246,7 +246,7 @@ func (c *Client) ListPlatformMembers(page, perPage int) ([]*YunxiaoOrganizationM
 
 // ---------- Core HTTP ----------
 
-func (c *Client) do(rawpath, method string, in, out interface{}) (*http.Header, error) {
+func (c *Client) do(rawpath, method string, in, out any) (*http.Header, error) {
 	uri, err := url.Parse(c.base + rawpath)
 	if err != nil {
 		return nil, err

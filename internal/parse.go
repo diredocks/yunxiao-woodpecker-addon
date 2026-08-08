@@ -1,4 +1,4 @@
-// Webhook payload parsing for push, tag push, and merge request events.
+// Package internal implements webhook payload parsing for push, tag push, and merge request events.
 package internal
 
 import (
