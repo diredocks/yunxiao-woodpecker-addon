@@ -1,3 +1,5 @@
+// HTTP client for the yunxiao platform and codeup APIs.
+// Handles authentication, pagination, and JSON serialization.
 package internal
 
 import (

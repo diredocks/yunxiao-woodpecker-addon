@@ -1,3 +1,4 @@
+// Type definitions and constants for the yunxiao API models and webhook payloads.
 package internal
 
 import (
