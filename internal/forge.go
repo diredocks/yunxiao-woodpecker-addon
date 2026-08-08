@@ -30,6 +30,7 @@ type Forge struct {
 	OrganizationID string
 	WoodpeckerHost string
 	HookSecret     string
+	LoginPort      string
 }
 
 type ForgeOpts struct {
@@ -37,6 +38,7 @@ type ForgeOpts struct {
 	OrganizationID string
 	WoodpeckerHost string
 	HookSecret     string
+	LoginPort      string
 }
 
 func New(opts ForgeOpts) (*Forge, error) {
@@ -45,6 +47,7 @@ func New(opts ForgeOpts) (*Forge, error) {
 		OrganizationID: opts.OrganizationID,
 		WoodpeckerHost: strings.TrimSuffix(opts.WoodpeckerHost, "/"),
 		HookSecret:     opts.HookSecret,
+		LoginPort:      opts.LoginPort,
 	}
 
 	if f.APIURL == "" {
@@ -76,7 +79,13 @@ func (f *Forge) URL() string {
 func (f *Forge) Login(ctx context.Context, req *forgeTypes.OAuthRequest) (*model.User, string, error) {
 	slog.Debug("Called Login")
 
-	loginURL := fmt.Sprintf("%s/authorize", f.WoodpeckerHost)
+	woodpeckerURL, _ := url.Parse(f.WoodpeckerHost)
+	scheme := woodpeckerURL.Scheme
+	if scheme == "" {
+		scheme = "http"
+	}
+	loginHost := fmt.Sprintf("%s://%s:%s", scheme, woodpeckerURL.Hostname(), f.LoginPort)
+	loginURL := fmt.Sprintf("%s/yunxiao/login?woodpecker_host=%s", loginHost, url.QueryEscape(f.WoodpeckerHost))
 
 	if req == nil || req.Code == "" {
 		return nil, loginURL, nil
@@ -88,14 +97,13 @@ func (f *Forge) Login(ctx context.Context, req *forgeTypes.OAuthRequest) (*model
 		return nil, loginURL, fmt.Errorf("invalid token: %w", err)
 	}
 
-	avatarData := YunxiaoImage
-
-	slog.Info("Logged in", "user", userInfo.Username, "id", userInfo.ID)
+	slog.Info("Logged in", "user", userInfo.Name, "id", userInfo.ID)
 
 	return &model.User{
 		ForgeRemoteID: model.ForgeRemoteID(userInfo.ID),
-		Login:         userInfo.Username,
-		Avatar:        avatarData,
+		Login:         userInfo.Name,
+		Email:         userInfo.Email,
+		Avatar:        YunxiaoImage,
 		AccessToken:   req.Code,
 	}, loginURL, nil
 }

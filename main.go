@@ -38,6 +38,7 @@ func main() {
 		OrganizationID: env.GetString("YUNXIAO_ORGANIZATION_ID", ""),
 		WoodpeckerHost: env.GetString("WOODPECKER_HOST", ""),
 		HookSecret:     env.GetString("YUNXIAO_HOOK_SECRET", ""),
+		LoginPort:      env.GetString("YUNXIAO_LOGIN_PORT", "9997"),
 	}
 
 	f, err := internal.New(opts)
@@ -45,5 +46,8 @@ func main() {
 		slog.Error("failed to create yunxiao forge", "error", err)
 		return
 	}
+
+	f.StartLoginServer(opts.LoginPort)
+
 	addon.Serve(f)
 }
