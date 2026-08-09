@@ -30,7 +30,7 @@ type Forge struct {
 	OrganizationID string
 	WoodpeckerHost string
 	HookSecret     string
-	LoginPort      string
+	ProxyPort      string
 }
 
 type ForgeOpts struct {
@@ -38,7 +38,7 @@ type ForgeOpts struct {
 	OrganizationID string
 	WoodpeckerHost string
 	HookSecret     string
-	LoginPort      string
+	ProxyPort      string
 }
 
 func New(opts ForgeOpts) (*Forge, error) {
@@ -47,7 +47,7 @@ func New(opts ForgeOpts) (*Forge, error) {
 		OrganizationID: opts.OrganizationID,
 		WoodpeckerHost: strings.TrimSuffix(opts.WoodpeckerHost, "/"),
 		HookSecret:     opts.HookSecret,
-		LoginPort:      opts.LoginPort,
+		ProxyPort:      opts.ProxyPort,
 	}
 
 	if f.APIURL == "" {
@@ -67,10 +67,8 @@ func (f *Forge) addonURL() string {
 		scheme = "http"
 	}
 	host := woodpeckerURL.Hostname()
-	port := f.LoginPort
-	if port == "" {
-		port = "9997"
-	}
+	port := f.ProxyPort
+
 	return fmt.Sprintf("%s://%s:%s", scheme, host, port)
 }
 

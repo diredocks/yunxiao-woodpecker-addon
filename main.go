@@ -38,7 +38,7 @@ func main() {
 		OrganizationID: env.GetString("YUNXIAO_ORGANIZATION_ID", ""),
 		WoodpeckerHost: env.GetString("WOODPECKER_HOST", ""),
 		HookSecret:     env.GetString("YUNXIAO_HOOK_SECRET", ""),
-		LoginPort:      env.GetString("YUNXIAO_LOGIN_PORT", "9997"),
+		ProxyPort:      env.GetString("YUNXIAO_PROXY_PORT", "9997"),
 	}
 
 	f, err := internal.New(opts)
@@ -47,7 +47,7 @@ func main() {
 		return
 	}
 
-	f.StartProxyServer(opts.LoginPort)
+	f.StartProxyServer(opts.ProxyPort)
 
 	addon.Serve(f)
 }
