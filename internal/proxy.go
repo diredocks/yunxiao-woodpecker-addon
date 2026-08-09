@@ -4,10 +4,10 @@ package internal
 
 import (
 	_ "embed"
-	"io"
 	"log/slog"
-	"maps"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 )
 
 //go:embed login.html
@@ -20,37 +20,20 @@ func (f *Forge) LoginHandler(w http.ResponseWriter, _ *http.Request) {
 	_, _ = w.Write([]byte(loginPageHTML))
 }
 
-func (f *Forge) HookProxyHandler(w http.ResponseWriter, r *http.Request) {
-	target := r.URL.Query().Get("target")
-	if target == "" {
-		http.Error(w, "missing target", http.StatusBadRequest)
-		return
+func (f *Forge) HookProxyHandler() http.Handler {
+	backend, _ := url.Parse(f.WoodpeckerHost)
+	if backend.Scheme == "" {
+		backend.Scheme = "http"
 	}
 
-	r.Header.Del("X-Gitlab-Token")
-
-	proxyReq, err := http.NewRequestWithContext(r.Context(), r.Method, target, r.Body)
-	if err != nil {
-		slog.Error("hook proxy: failed to create request", "error", err, "target", target)
-		http.Error(w, "proxy error", http.StatusInternalServerError)
-		return
-	}
-
-	proxyReq.Header = r.Header
-
-	resp, err := http.DefaultClient.Do(proxyReq)
-	if err != nil {
-		slog.Error("hook proxy: failed to forward", "error", err, "target", target)
-		http.Error(w, "proxy error", http.StatusBadGateway)
-		return
-	}
-	defer func() { _ = resp.Body.Close() }()
-
-	maps.Copy(w.Header(), resp.Header)
-	w.WriteHeader(resp.StatusCode)
-
-	if _, err := io.Copy(w, resp.Body); err != nil {
-		slog.Error("hook proxy: failed to copy response", "error", err)
+	return &httputil.ReverseProxy{
+		Director: func(req *http.Request) {
+			req.Header.Del("X-Gitlab-Token")
+			req.URL.Scheme = backend.Scheme
+			req.URL.Host = backend.Host
+			req.URL.Path = "/api/hook"
+			req.Host = backend.Host
+		},
 	}
 }
 
@@ -59,7 +42,7 @@ func (f *Forge) StartProxyServer(port string) {
 	go func() {
 		mux := http.NewServeMux()
 		mux.HandleFunc("/yunxiao/login", f.LoginHandler)
-		mux.HandleFunc("/yunxiao/hook", f.HookProxyHandler)
+		mux.Handle("/yunxiao/hook", f.HookProxyHandler())
 		slog.Info("proxy server listening", "addr", addr)
 		if err := http.ListenAndServe(addr, mux); err != nil {
 			slog.Error("proxy server failed", "error", err)

@@ -257,7 +257,11 @@ func (f *Forge) Netrc(u *model.User, _ *model.Repo) (*model.Netrc, error) {
 func (f *Forge) Activate(ctx context.Context, u *model.User, r *model.Repo, link string) error {
 	slog.Debug("Called Activate", "repo", r.ForgeRemoteID, "link", link)
 
-	proxyLink := fmt.Sprintf("%s/yunxiao/hook?target=%s", f.addonURL(), url.QueryEscape(link))
+	linkQuery := ""
+	if parsed, err := url.Parse(link); err == nil && parsed.RawQuery != "" {
+		linkQuery = "?" + parsed.RawQuery
+	}
+	proxyLink := fmt.Sprintf("%s/yunxiao/hook%s", f.addonURL(), linkQuery)
 
 	client := f.newClient(ctx, u)
 
@@ -283,7 +287,11 @@ func (f *Forge) Activate(ctx context.Context, u *model.User, r *model.Repo, link
 func (f *Forge) Deactivate(ctx context.Context, u *model.User, r *model.Repo, link string) error {
 	slog.Debug("Called Deactivate", "repo", r.ForgeRemoteID, "link", link)
 
-	proxyLink := fmt.Sprintf("%s/yunxiao/hook?target=%s", f.addonURL(), url.QueryEscape(link))
+	linkQuery := ""
+	if parsed, err := url.Parse(link); err == nil && parsed.RawQuery != "" {
+		linkQuery = "?" + parsed.RawQuery
+	}
+	proxyLink := fmt.Sprintf("%s/yunxiao/hook%s", f.addonURL(), linkQuery)
 
 	client := f.newClient(ctx, u)
 
