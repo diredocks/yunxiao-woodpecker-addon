@@ -60,6 +60,20 @@ func New(opts ForgeOpts) (*Forge, error) {
 	return f, nil
 }
 
+func (f *Forge) addonURL() string {
+	woodpeckerURL, _ := url.Parse(f.WoodpeckerHost)
+	scheme := woodpeckerURL.Scheme
+	if scheme == "" {
+		scheme = "http"
+	}
+	host := woodpeckerURL.Hostname()
+	port := f.LoginPort
+	if port == "" {
+		port = "9997"
+	}
+	return fmt.Sprintf("%s://%s:%s", scheme, host, port)
+}
+
 func (f *Forge) newClient(ctx context.Context, u *model.User) *Client {
 	token := ""
 	if u != nil {
@@ -79,13 +93,7 @@ func (f *Forge) URL() string {
 func (f *Forge) Login(ctx context.Context, req *forgeTypes.OAuthRequest) (*model.User, string, error) {
 	slog.Debug("Called Login")
 
-	woodpeckerURL, _ := url.Parse(f.WoodpeckerHost)
-	scheme := woodpeckerURL.Scheme
-	if scheme == "" {
-		scheme = "http"
-	}
-	loginHost := fmt.Sprintf("%s://%s:%s", scheme, woodpeckerURL.Hostname(), f.LoginPort)
-	loginURL := fmt.Sprintf("%s/yunxiao/login?woodpecker_host=%s", loginHost, url.QueryEscape(f.WoodpeckerHost))
+	loginURL := fmt.Sprintf("%s/yunxiao/login?woodpecker_host=%s", f.addonURL(), url.QueryEscape(f.WoodpeckerHost))
 
 	if req == nil || req.Code == "" {
 		return nil, loginURL, nil
@@ -249,10 +257,12 @@ func (f *Forge) Netrc(u *model.User, _ *model.Repo) (*model.Netrc, error) {
 func (f *Forge) Activate(ctx context.Context, u *model.User, r *model.Repo, link string) error {
 	slog.Debug("Called Activate", "repo", r.ForgeRemoteID, "link", link)
 
+	proxyLink := fmt.Sprintf("%s/yunxiao/hook?target=%s", f.addonURL(), url.QueryEscape(link))
+
 	client := f.newClient(ctx, u)
 
 	webhookReq := &CreateWebhookRequest{
-		URL:                   link,
+		URL:                   proxyLink,
 		Token:                 f.HookSecret,
 		PushEvents:            true,
 		TagPushEvents:         true,
@@ -273,9 +283,11 @@ func (f *Forge) Activate(ctx context.Context, u *model.User, r *model.Repo, link
 func (f *Forge) Deactivate(ctx context.Context, u *model.User, r *model.Repo, link string) error {
 	slog.Debug("Called Deactivate", "repo", r.ForgeRemoteID, "link", link)
 
+	proxyLink := fmt.Sprintf("%s/yunxiao/hook?target=%s", f.addonURL(), url.QueryEscape(link))
+
 	client := f.newClient(ctx, u)
 
-	hook, err := client.GetWebhookByURL(string(r.ForgeRemoteID), link)
+	hook, err := client.GetWebhookByURL(string(r.ForgeRemoteID), proxyLink)
 	if err != nil {
 		slog.Error("failed to find webhook", "error", err)
 		return fmt.Errorf("could not deactivate repository: %w", err)

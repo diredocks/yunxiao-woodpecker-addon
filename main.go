@@ -47,7 +47,7 @@ func main() {
 		return
 	}
 
-	f.StartLoginServer(opts.LoginPort)
+	f.StartProxyServer(opts.LoginPort)
 
 	addon.Serve(f)
 }

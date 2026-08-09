@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	EventTypeHeaderKey = "Codeup-Event"
+	EventTypeHeaderKey = "X-Codeup-Event"
 	WebhookTokenHeader = "X-Codeup-Token"
 
 	EventTypePush         = "Push Hook"
