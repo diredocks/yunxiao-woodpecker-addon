@@ -152,7 +152,7 @@ var (
 		"filePath": ".woodpecker.yml",
 		"lastCommitId": "abc123def456",
 		"ref": "master",
-		"size": 64
+		"size": "64"
 	}`)
 
 	FileTreePayload = []byte(`[{

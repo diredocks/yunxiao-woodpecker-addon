@@ -242,7 +242,7 @@ type YunxiaoFileContent struct {
 	FilePath     string `json:"filePath"`
 	LastCommitID string `json:"lastCommitId"`
 	Ref          string `json:"ref"`
-	Size         int    `json:"size"`
+	Size         string `json:"size"`
 }
 
 // ---------- Change Request (Merge Request) ----------
