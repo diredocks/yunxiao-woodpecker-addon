@@ -426,15 +426,19 @@ func TestNetrc(t *testing.T) {
 	srv, f := setupTest(t)
 	defer srv.Close()
 
-	user := &model.User{AccessToken: "test-token"}
-	netrc, err := f.Netrc(user, nil)
+	user := &model.User{Login: "test-user", AccessToken: "test-token"}
+	repo := &model.Repo{Clone: "https://codeup.aliyun.com/test-user/test-repo.git"}
+	netrc, err := f.Netrc(user, repo)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if netrc.Login != "test-token" {
+	if netrc.Machine != "codeup.aliyun.com" {
+		t.Errorf("Machine = %q", netrc.Machine)
+	}
+	if netrc.Login != "test-user" {
 		t.Errorf("Login = %q", netrc.Login)
 	}
-	if netrc.Password != "x-yunxiao-token" {
+	if netrc.Password != "test-token" {
 		t.Errorf("Password = %q", netrc.Password)
 	}
 }
