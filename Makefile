@@ -17,5 +17,5 @@ test/cover:
 
 build:
 	@CGO_ENABLED=0 go build \
-		-ldflags "-X 'yunxiao-woodpecker-addon/pkg/version.Version=dev' -X 'yunxiao-woodpecker-addon/pkg/version.BuildTime=$(shell date)'" \
+		-ldflags "-s -w -X 'yunxiao-woodpecker-addon/pkg/version.Version=dev' -X 'yunxiao-woodpecker-addon/pkg/version.BuildTime=$(shell date)'" \
 		-o ./yunxiao-woodpecker-addon
