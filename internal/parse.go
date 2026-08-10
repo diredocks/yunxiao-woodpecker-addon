@@ -116,6 +116,7 @@ func convertHookRepository(repo *HookRepository, projectID int) *model.Repo {
 		Clone:         repo.GitHTTPURL,
 		CloneSSH:      repo.GitSSHURL,
 		PREnabled:     true,
+		IsSCMPrivate:  repo.VisibilityLevel != 20,
 	}
 }
 

@@ -232,7 +232,7 @@ func (f *Forge) Status(ctx context.Context, u *model.User, r *model.Repo, b *mod
 	return nil
 }
 
-func (f *Forge) Netrc(u *model.User, _ *model.Repo) (*model.Netrc, error) {
+func (f *Forge) Netrc(u *model.User, r *model.Repo) (*model.Netrc, error) {
 	slog.Debug("Called Netrc")
 
 	token := ""
@@ -240,15 +240,15 @@ func (f *Forge) Netrc(u *model.User, _ *model.Repo) (*model.Netrc, error) {
 		token = u.AccessToken
 	}
 
-	host := f.APIURL
-	if parsed, err := url.Parse(f.APIURL); err == nil {
-		host = parsed.Host
+	host, err := common.ExtractHostFromCloneURL(r.Clone)
+	if err != nil {
+		return nil, err
 	}
 
 	return &model.Netrc{
 		Machine:  host,
-		Login:    token,
-		Password: "x-yunxiao-token",
+		Login:    u.Login,
+		Password: token,
 	}, nil
 }
 
@@ -511,6 +511,7 @@ func convertRepository(repo *YunxiaoRepository) *model.Repo {
 		Branch:        repo.DefaultBranch,
 		PREnabled:     true,
 		Perm:          perm,
+		IsSCMPrivate:  repo.Visibility == "private" || repo.Visibility == "internal",
 	}
 }
 
