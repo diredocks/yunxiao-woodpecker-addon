@@ -31,7 +31,7 @@ func (f *Forge) HookProxyHandler() http.Handler {
 			req.Header.Del("X-Gitlab-Token")
 			req.URL.Scheme = backend.Scheme
 			req.URL.Host = backend.Host
-			req.URL.Path = "/api/hook"
+			req.URL.Path = backend.Path + "/api/hook"
 			req.Host = backend.Host
 		},
 	}
