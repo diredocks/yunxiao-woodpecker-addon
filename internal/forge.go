@@ -31,6 +31,7 @@ type Forge struct {
 	WoodpeckerHost string
 	HookSecret     string
 	ProxyPort      string
+	IncludePort    bool
 }
 
 type ForgeOpts struct {
@@ -39,6 +40,7 @@ type ForgeOpts struct {
 	WoodpeckerHost string
 	HookSecret     string
 	ProxyPort      string
+	IncludePort    bool
 }
 
 func New(opts ForgeOpts) (*Forge, error) {
@@ -48,6 +50,7 @@ func New(opts ForgeOpts) (*Forge, error) {
 		WoodpeckerHost: strings.TrimSuffix(opts.WoodpeckerHost, "/"),
 		HookSecret:     opts.HookSecret,
 		ProxyPort:      opts.ProxyPort,
+		IncludePort:    opts.IncludePort,
 	}
 
 	if f.APIURL == "" {
@@ -61,15 +64,11 @@ func New(opts ForgeOpts) (*Forge, error) {
 }
 
 func (f *Forge) addonURL() string {
-	woodpeckerURL, _ := url.Parse(f.WoodpeckerHost)
-	scheme := woodpeckerURL.Scheme
-	if scheme == "" {
-		scheme = "http"
+	u, _ := url.Parse(f.WoodpeckerHost)
+	if f.IncludePort {
+		u.Host = u.Hostname() + ":" + f.ProxyPort
 	}
-	host := woodpeckerURL.Hostname()
-	port := f.ProxyPort
-
-	return fmt.Sprintf("%s://%s:%s", scheme, host, port)
+	return u.String()
 }
 
 func (f *Forge) newClient(ctx context.Context, u *model.User) *Client {
