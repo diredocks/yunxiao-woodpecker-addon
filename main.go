@@ -37,7 +37,6 @@ func main() {
 		WoodpeckerHost: env.GetString("WOODPECKER_HOST", ""),
 		APIURL:         env.GetString("YUNXIAO_API_URL", ""),
 		OrganizationID: env.GetString("YUNXIAO_ORGANIZATION_ID", ""),
-		HookSecret:     env.GetString("YUNXIAO_HOOK_SECRET", ""),
 		ProxyPort:      env.GetString("YUNXIAO_PROXY_PORT", "9997"),
 		IncludePort:    env.GetString("YUNXIAO_INCLUDE_PORT", "false") == "true",
 	}

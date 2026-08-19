@@ -20,7 +20,6 @@ func setupTest(t *testing.T) (*httptest.Server, *internal.Forge) {
 		APIURL:         srv.URL,
 		OrganizationID: "",
 		WoodpeckerHost: "https://ci.example.com",
-		HookSecret:     "my-hook-secret",
 	}
 	return srv, f
 }
@@ -273,7 +272,6 @@ func TestHook(t *testing.T) {
 	t.Run("push hook", func(t *testing.T) {
 		req := httptest.NewRequest("POST", "/hook", bytes.NewReader(fixtures.HookPushPayload))
 		req.Header.Set(internal.EventTypeHeaderKey, internal.EventTypePush)
-		req.Header.Set(internal.WebhookTokenHeader, "my-hook-secret")
 
 		repo, pipeline, err := f.Hook(context.Background(), req)
 		if err != nil {
@@ -296,7 +294,6 @@ func TestHook(t *testing.T) {
 	t.Run("tag push hook", func(t *testing.T) {
 		req := httptest.NewRequest("POST", "/hook", bytes.NewReader(fixtures.HookTagPushPayload))
 		req.Header.Set(internal.EventTypeHeaderKey, internal.EventTypeTagPush)
-		req.Header.Set(internal.WebhookTokenHeader, "my-hook-secret")
 
 		repo, pipeline, err := f.Hook(context.Background(), req)
 		if err != nil {
@@ -316,7 +313,6 @@ func TestHook(t *testing.T) {
 	t.Run("merge request hook", func(t *testing.T) {
 		req := httptest.NewRequest("POST", "/hook", bytes.NewReader(fixtures.HookMergeRequestPayload))
 		req.Header.Set(internal.EventTypeHeaderKey, internal.EventTypeMergeRequest)
-		req.Header.Set(internal.WebhookTokenHeader, "my-hook-secret")
 
 		repo, pipeline, err := f.Hook(context.Background(), req)
 		if err != nil {
@@ -339,21 +335,9 @@ func TestHook(t *testing.T) {
 		}
 	})
 
-	t.Run("reject invalid token", func(t *testing.T) {
-		req := httptest.NewRequest("POST", "/hook", bytes.NewReader(fixtures.HookPushPayload))
-		req.Header.Set(internal.EventTypeHeaderKey, internal.EventTypePush)
-		req.Header.Set(internal.WebhookTokenHeader, "wrong-secret")
-
-		_, _, err := f.Hook(context.Background(), req)
-		if err == nil {
-			t.Error("expected error for invalid webhook token")
-		}
-	})
-
 	t.Run("ignore note hook", func(t *testing.T) {
 		req := httptest.NewRequest("POST", "/hook", bytes.NewReader([]byte(`{}`)))
 		req.Header.Set(internal.EventTypeHeaderKey, internal.EventTypeNote)
-		req.Header.Set(internal.WebhookTokenHeader, "my-hook-secret")
 
 		_, _, err := f.Hook(context.Background(), req)
 		if err == nil {

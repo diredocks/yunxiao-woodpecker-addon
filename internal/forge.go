@@ -29,7 +29,6 @@ type Forge struct {
 	APIURL         string
 	OrganizationID string
 	WoodpeckerHost string
-	HookSecret     string
 	ProxyPort      string
 	IncludePort    bool
 }
@@ -38,7 +37,6 @@ type ForgeOpts struct {
 	APIURL         string
 	OrganizationID string
 	WoodpeckerHost string
-	HookSecret     string
 	ProxyPort      string
 	IncludePort    bool
 }
@@ -48,7 +46,6 @@ func New(opts ForgeOpts) (*Forge, error) {
 		APIURL:         strings.TrimSuffix(opts.APIURL, "/"),
 		OrganizationID: opts.OrganizationID,
 		WoodpeckerHost: strings.TrimSuffix(opts.WoodpeckerHost, "/"),
-		HookSecret:     opts.HookSecret,
 		ProxyPort:      opts.ProxyPort,
 		IncludePort:    opts.IncludePort,
 	}
@@ -264,7 +261,6 @@ func (f *Forge) Activate(ctx context.Context, u *model.User, r *model.Repo, link
 
 	webhookReq := &CreateWebhookRequest{
 		URL:                   proxyLink,
-		Token:                 f.HookSecret,
 		PushEvents:            true,
 		TagPushEvents:         true,
 		MergeRequestsEvents:   true,
@@ -372,13 +368,6 @@ func (f *Forge) PullRequests(ctx context.Context, u *model.User, r *model.Repo, 
 
 func (f *Forge) Hook(ctx context.Context, r *http.Request) (*model.Repo, *model.Pipeline, error) {
 	slog.Debug("Called Hook")
-
-	if f.HookSecret != "" {
-		token := r.Header.Get(WebhookTokenHeader)
-		if token != f.HookSecret {
-			return nil, nil, errors.New("invalid webhook token")
-		}
-	}
 
 	payload, err := io.ReadAll(r.Body)
 	if err != nil {

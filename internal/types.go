@@ -10,7 +10,6 @@ import (
 
 const (
 	EventTypeHeaderKey = "X-Codeup-Event"
-	WebhookTokenHeader = "X-Codeup-Token"
 
 	EventTypePush         = "Push Hook"
 	EventTypeTagPush      = "Tag Push Hook"
