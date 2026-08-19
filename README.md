@@ -23,7 +23,7 @@ Mount the addon directory into the `woodpecker-server` container and set the req
       YUNXIAO_API_URL: https://openapi-rdc.aliyuncs.com
       YUNXIAO_ORGANIZATION_ID: <your_org_id> # not required for region version
       YUNXIAO_HOOK_SECRET: <your_webhook_secret> # not required but suggested
-      # LOG_LEVEL: debug
+      # YUNXIAO_LOG_LEVEL: debug
       # WOODPECKER_LOG_LEVEL: debug
 
     volumes:

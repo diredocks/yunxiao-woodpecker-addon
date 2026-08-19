@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	logLevel := env.GetString("LOG_LEVEL", "info")
+	logLevel := env.GetString("YUNXIAO_LOG_LEVEL", "info")
 	var slogLevel slog.Level
 	switch logLevel {
 	case "debug":
