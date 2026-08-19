@@ -28,3 +28,25 @@ Mount the addon directory into the `woodpecker-server` container and set the req
     volumes:
       - ./addons:/opt/addons/:ro
 ```
+
+## Reverse proxy with Caddy
+
+Access the instance at `example.com/ci`
+
+```caddy
+exmaple.com {
+  # Redirect to ensure trailing slash for proper relative path handling
+  redir /ci /ci/ 308
+
+  # Proxy addon services under /ci/yunxiao
+  handle /ci/yunxiao/* {
+    uri replace /ci/yunxiao /yunxiao
+    reverse_proxy woodpecker-server:<addon_port>
+  }
+
+  # Proxy the main Woodpecker CI server
+  handle /ci/* {
+    reverse_proxy woodpecker-server:<server_port>
+  }
+}
+```
